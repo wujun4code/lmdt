@@ -1,7 +1,7 @@
 {
     "applicationName" : "聊天调试工具",
-    "applicationId": "8olvdp0lwxd4y3pxapisyuxvk81qzg8ita0d9esgug5fu6uj",
-    "applicationKey": "rootw09j0a0alyz32xo5zju8wul5gd4x62t2qlkeckuki7g5",
+    "applicationId": " YOUR LeanCloud APP ID",
+    "applicationKey": " YOUR LeanCloud APP KEY",
     "global": {
         "avVersion": "0.3.1",
         "request":"2.55.0"
