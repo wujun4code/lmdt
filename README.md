@@ -1,2 +1,0 @@
-# lmdt
-LeanMessage Debug Tool

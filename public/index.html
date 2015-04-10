@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LeanMesaage Debug Tool</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="http://getbootstrap.com/examples/sticky-footer/sticky-footer.css">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <form id="message_form" class="form-horizontal" autocomplete="on" method="POST">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">App ID</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="appId" id="appId" autocomplete="on" placeholder="App ID">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="masterKey" class="col-sm-2 control-label">Master Key</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="masterKey" id="masterKey" placeholder="Master Key">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="clientId" class="col-sm-2 control-label">Client Id</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="clientId" id="clientId" placeholder="Client Id">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="convId" class="col-sm-2 control-label">Conversation Id</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="convId" id="convId" placeholder="Conversation Id">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="content" class="col-sm-2 control-label">Text</label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" name="content" rows="3" id="content" placeholder="What's up?" required></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <button id="send" class="col-sm-2 col-md-offset-2 btn btn-primary" data-loading-text="Sending..." autocomplete="off">Send</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="col-sm-10 col-md-offset-2">
+            <h1 id="leanmessage-debug-tool">LeanMessage Debug Tool</h1>
+            <p>这是一个简单的通过调用 REST API 给 Client 发送实时消息的调试工具。</p>
+            <p>LeanCloud 推出的聊天功能组件——LeanMessage 全面支持各平台上实时聊天服务，在开发期间，需要发送一些简单的消息进行调试，这个工具可以帮助您。</p>
+            <p>参数详解：</p>
+            <pre><code>
+            App ID: LeanCloud 应用的 App ID
+            Master Key: LeanCloud 应用的 Master Key
+            Client Id: AVIMClient 对应的 Client Id 
+            Conversation Id: 对话的 ID
+            Text: 要发送的文本消息</code></pre>
+        </div>
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+</body>
+<footer class="footer">
+      <div class="container">
+        <p class="text-muted">© 2015 <a href="http://weibo.com/416318965">@神笔码农</a> All rights reserved.</p>
+      </div>
+    </footer>
+</html>
+
+<script type="text/javascript">
+    window.onload = InitData();
+    $("#send").click(function () {
+        var btn = $(this);
+        btn.button("loading");
+        var url = "/send"; // the script where you handle the form input.
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: $("#message_form").serialize(),
+            success: function (data) {
+                alert(data.success); // show response from the php script.
+                btn.button('reset');
+            }
+        });
+        window.localStorage.setItem('appId', $('#appId').val());
+        window.localStorage.setItem('masterKey', $('#masterKey').val());
+        window.localStorage.setItem('clientId', $('#clientId').val());
+        window.localStorage.setItem('convId', $('#convId').val());
+        window.localStorage.setItem('content', $('#content').val());
+        return false; // avoid to execute the actual submit of the form.
+    });
+
+    function InitData() {
+        $('#appId').val(window.localStorage.getItem('appId'));
+        $('#masterKey').val(window.localStorage.getItem('masterKey'));
+        $('#clientId').val(window.localStorage.getItem('clientId'));
+        $('#convId').val(window.localStorage.getItem('convId'));
+        $('#content').val(window.localStorage.getItem('content'));
+    };
+</script>
